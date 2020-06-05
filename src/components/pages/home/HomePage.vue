@@ -1,15 +1,17 @@
 <template>
   <section class="wrapper">
-    <div>
+    <!-- <div>
       <input type="number" v-model="hash" class="search-hash-input neon-text" placeholder="only valid hashes">
-      <a :href="url+'/'+hash" target="_blank" class="search-hash-anchor cyber-text neon-text">Open data</a>
-    </div>
+      <a :href="`${url}/${hash}`" target="_blank" class="search-hash-anchor cyber-text neon-text">Open data</a>
+    </div> -->
     <form :action="url" 
           method="post"
           @submit="getPostedDataHash">
-      <p v-if="postedDataHash || isLoading" :class="isLoading">{{postedDataHash}}</p>
+      <a v-if="postedDataHash || isLoading"
+        :class="`${isLoading} posted-data-anchor`"
+        :href="`${url}/${postedDataHash}`">{{`${url}/${postedDataHash}`}}</a>
       <textarea v-model="data" id="data-poster" class="submit-data submit-data-textarea neon-text"></textarea>
-      <button type="submit" class="cyber-text neon-text submit-data">Submit data</button>
+      <button type="submit" class="cyber-text neon-text submit-data submit-data-button">Submit data</button>
     </form>
   </section>
 </template>
@@ -55,10 +57,23 @@ html {
   --neon-color: #{$neon-color-1};
   --neon-light: 0 0 var(--blur) var(--neon-color);
   --cyber-font: monospace;
+  --light-color: #f0f0f0;
+  --dark-color: #101010;
+}
+.posted-data-anchor {
+  font-size: 9px;
+  color: var(--light-color);
 }
 .submit-data-textarea {
   height: 290px;
   width: 290px;
+}
+.submit-data-button {
+  transition: 0.25s;
+  &:hover {
+    --neon-color: var(--light-color);
+    cursor: pointer;
+  }
 }
 .submit-data {
   background: transparent;
@@ -92,8 +107,8 @@ html {
 }
 
 .wrapper {
-  background: #101010;
-  color: #f0f0f0;
+  background: var(--dark-color);
+  color: var(--light-color);
   font-family: var(--cyber-font);
   display: grid;
   min-height: 100vh;
@@ -102,17 +117,11 @@ html {
     display: grid;
     place-content: center;
     grid-gap: 25px;
-    & > * {
-      display: grid;
-      place-content: center;
-      grid-gap: 25px;
-    }
   }
 }
 
-.isLoading::before {
+.isLoading::after {
   content: '.';
-  display: block;
   animation: loadingText 0.75s linear infinite;
 }
 
