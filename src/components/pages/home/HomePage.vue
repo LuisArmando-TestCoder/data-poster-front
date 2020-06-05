@@ -1,9 +1,5 @@
 <template>
   <section class="wrapper">
-    <!-- <div>
-      <input type="number" v-model="hash" class="search-hash-input neon-text" placeholder="only valid hashes">
-      <a :href="`${url}/${hash}`" target="_blank" class="search-hash-anchor cyber-text neon-text">Open data</a>
-    </div> -->
     <form :action="url" 
           method="post"
           @submit="getPostedDataHash">
@@ -63,6 +59,10 @@ html {
 .posted-data-anchor {
   font-size: 9px;
   color: var(--light-color);
+  text-decoration: none;
+  &:hover, &:active, &:focus {
+    text-decoration: underline;
+  }
 }
 .submit-data-textarea {
   height: 290px;
